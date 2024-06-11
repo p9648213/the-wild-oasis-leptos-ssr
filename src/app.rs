@@ -3,14 +3,13 @@ use crate::error_template::{AppError, ErrorTemplate};
 use crate::page::{about::About, account::Account, cabins::Cabins};
 use leptos::*;
 use leptos_meta::*;
+use leptos_router::A;
 use leptos_router::*;
 
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
-
-    leptos_image::provide_image_context();
 
     view! {
         <Stylesheet id="leptos" href="/pkg/the-wild-oasis-leptos-ssr.css"/>
@@ -56,8 +55,25 @@ pub fn App() -> impl IntoView {
 #[component]
 fn HomePage() -> impl IntoView {
     view! {
-        <div>
-            <h1>"The Wild Oasis. Welcome to paradise"</h1>
-        </div>
+        <main class="mt-24">
+            <img
+                src="/bg.png"
+                alt="Mountains and forests with two cabins"
+                class="object-cover object-top w-full h-full absolute inset-0 text-transparent"
+                sizes="100vw"
+            />
+
+            <div class="relative z-10 text-center">
+                <h1 class="text-8xl text-primary-50 mb-10 tracking-tight font-normal">
+                    "Welcome to paradise."
+                </h1>
+                <A
+                    href="/cabins"
+                    class="bg-accent-500 px-8 py-6 text-primary-800 text-lg font-semibold hover:bg-accent-600 transition-all"
+                >
+                    "Explore luxury cabins"
+                </A>
+            </div>
+        </main>
     }
 }

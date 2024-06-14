@@ -43,3 +43,21 @@ body {
   --rdp-background-color: theme("colors.accent.600") !important;
   margin: 0 !important;
 }
+
+.nav-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.nav-icon svg path {
+  stroke: rgb(76 107 138);
+}
+
+.reservation-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.reservation-icon svg path {
+  stroke: rgb(198 153 99);
+}

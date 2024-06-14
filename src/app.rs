@@ -1,8 +1,11 @@
-use crate::components::app_layout::AppLayout;
+use crate::components::{account_layout::AccountLayout, app_layout::AppLayout};
 use crate::error_template::{AppError, ErrorTemplate};
-use crate::page::{about::About, account::Account, cabins::Cabins};
+use crate::page::{
+    about::About, account::Account, cabins::Cabins, profile::Profile, reservations::Reservations,
+};
 use leptos::*;
 use leptos_meta::*;
+use leptos_query::provide_query_client;
 use leptos_router::A;
 use leptos_router::*;
 
@@ -10,6 +13,9 @@ use leptos_router::*;
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+
+    // Provides leptos query client
+    provide_query_client();
 
     view! {
         <Stylesheet id="leptos" href="/pkg/the-wild-oasis-leptos-ssr.css"/>
@@ -37,16 +43,18 @@ pub fn App() -> impl IntoView {
             outside_errors.insert_with_default_key(AppError::NotFound);
             view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
-
             <Routes>
                 <Route path="/" view=AppLayout>
                     <Route path="/" view=HomePage/>
                     <Route path="/about" view=About/>
-                    <Route path="/account" view=Account/>
+                    <Route path="/account" view=AccountLayout>
+                        <Route path="/" view=Account/>
+                        <Route path="/profile" view=Profile/>
+                        <Route path="/reservations" view=Reservations/>
+                    </Route>
                     <Route path="/cabins" view=Cabins/>
                 </Route>
             </Routes>
-
         </Router>
     }
 }

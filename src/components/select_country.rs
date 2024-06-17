@@ -11,26 +11,6 @@ pub fn SelectCountry(
     let query = all_country_query().use_query(|| CountryKey);
     let data = query.data;
 
-    // let flag = move || {
-    //     data.with(|country| match country {
-    //         Some(country) => match country {
-    //             Ok(country) => {
-    //                 if country.is_empty() {
-    //                     "".to_owned()
-    //                 } else {
-    //                     let find_country = country.into_iter().find(|c| c.name == default_country);
-    //                     match find_country {
-    //                         Some(country) => country.clone().flag,
-    //                         None => "".to_owned(),
-    //                     }
-    //                 }
-    //             }
-    //             Err(_) => "".to_owned(),
-    //         },
-    //         None => "".to_owned(),
-    //     })
-    // };
-
     let country = move || {
         data.with(|country| match country {
             Some(country) => match country {

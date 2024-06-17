@@ -1,9 +1,19 @@
-use crate::{components::cabin_card::CabinCard, model::cabin::Cabin};
+use crate::{
+    components::cabin_card::CabinCard,
+    model::cabin::Cabin,
+    util::data_service::{all_cabins_query, CabinKey},
+};
 use leptos::*;
 
 #[component]
 pub fn Cabins() -> impl IntoView {
     let cabins: Vec<Cabin> = vec![];
+    let query = all_cabins_query().use_query(|| CabinKey);
+    let data = query.data;
+
+    create_effect(move |_| {
+        logging::log!("{:#?}", data.get());
+    });
 
     let renderCabin = cabins
         .iter()

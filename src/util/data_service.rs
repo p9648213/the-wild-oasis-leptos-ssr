@@ -1,6 +1,5 @@
 use leptos_query::{create_query, QueryOptions, QueryScope};
 use crate::util::supabase::create_client;
-use anyhow::Result;
 
 use crate::model::country::Country;
 use crate::model::cabin::Cabin;

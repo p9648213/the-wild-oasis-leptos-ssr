@@ -61,3 +61,13 @@ body {
 .reservation-icon svg path {
   stroke: rgb(198 153 99);
 }
+
+.cabin-user-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  transform: translateY(-2);
+}
+
+.cabin-user-icon svg path {
+  stroke: rgb(76 107 138);
+}

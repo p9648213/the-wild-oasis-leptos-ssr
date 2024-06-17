@@ -1,30 +1,25 @@
 use crate::{
-    components::cabin_card::CabinCard,
-    model::cabin::Cabin,
+    components::{cabin_card::CabinCard, spinner::Spinner},
     util::data_service::{all_cabins_query, CabinKey},
 };
 use leptos::*;
 
 #[component]
 pub fn Cabins() -> impl IntoView {
-    let cabins: Vec<Cabin> = vec![];
     let query = all_cabins_query().use_query(|| CabinKey);
     let data = query.data;
 
-    create_effect(move |_| {
-        logging::log!("{:#?}", data.get());
-    });
-
-    let renderCabin = cabins
-        .iter()
-        .map(|cabin| {
-            view! {
-                <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-                    <CabinCard cabin=cabin.clone()/>
-                </div>
-            }
+    let renderCabin = move || {
+        data.get().map(|cabin| match cabin {
+            Ok(cabin) => cabin
+                .iter()
+                .map(|cabin| {
+                    view! { <CabinCard cabin=cabin.clone()/> }
+                })
+                .collect_view(),
+            Err(err) => view! { <div>{err}</div> }.into_view(),
         })
-        .collect_view();
+    };
 
     view! {
         <div>
@@ -37,7 +32,12 @@ pub fn Cabins() -> impl IntoView {
                 home away from home. The perfect spot for a peaceful, calm vacation.
                 Welcome to paradise."
             </p>
-            <Show when=move || { cabins.len() > 0 }>{renderCabin.clone()}</Show>
+            <Suspense fallback=move || view! { <Spinner/> }>
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
+                    {renderCabin()}
+                </div>
+            </Suspense>
+
         </div>
     }
 }

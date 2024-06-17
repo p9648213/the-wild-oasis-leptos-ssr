@@ -8,10 +8,6 @@ async fn main() {
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use the_wild_oasis_leptos_ssr::app::*;
     use the_wild_oasis_leptos_ssr::fileserv::file_and_error_handler;
-    use dotenv::dotenv;
-
-    // load environments from .env
-    dotenv().ok();
 
     // Setting get_configuration(None) means we'll be using cargo-leptos's env values
     // For deployment these variables are:

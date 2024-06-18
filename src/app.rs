@@ -1,7 +1,8 @@
 use crate::components::{account_layout::AccountLayout, app_layout::AppLayout};
 use crate::error_template::{AppError, ErrorTemplate};
 use crate::page::{
-    about::About, account::Account, cabins::Cabins, profile::Profile, reservations::Reservations,
+    about::About, account::Account, cabin::Cabin, cabins::Cabins, profile::Profile,
+    reservations::Reservations,
 };
 use leptos::*;
 use leptos_meta::*;
@@ -53,6 +54,7 @@ pub fn App() -> impl IntoView {
                         <Route path="/reservations" view=Reservations/>
                     </Route>
                     <Route path="/cabins" view=Cabins/>
+                    <Route path="/cabins/:id" view=Cabin/>
                 </Route>
             </Routes>
         </Router>

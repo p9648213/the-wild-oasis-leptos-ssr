@@ -8,3 +8,4 @@ pub mod select_country;
 pub mod side_navigation;
 pub mod signout_button;
 pub mod spinner;
+pub mod text_expander;

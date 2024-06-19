@@ -1,4 +1,4 @@
-use crate::components::spinner::Spinner;
+use crate::components::{spinner::Spinner, text_expander::TextExpander};
 use crate::util::data_service::{single_cabin_query, SingleCabinKey};
 use icondata::{FaEyeSlashSolid, FaMapLocationSolid, FaUserGroupSolid};
 use leptos::*;
@@ -30,7 +30,7 @@ pub fn Cabin() -> impl IntoView {
                             view! {
                                 <div class="max-w-6xl mx-auto mt-8">
                                     <div class="grid grid-cols-[3fr_4fr] gap-20 border border-primary-800 py-3 px-10 mb-24">
-                                        <div class="relative scale-[1.15] -translate-x-3">
+                                        <div class="relative scale-[1.2] -translate-x-3">
                                             <img
                                                 src=cabin.image
                                                 fill
@@ -45,7 +45,7 @@ pub fn Cabin() -> impl IntoView {
                                             </h3>
 
                                             <p class="text-lg text-primary-300 mb-10">
-                                                {cabin.description}
+                                                <TextExpander text=cabin.description.unwrap_or_default()/>
                                             </p>
 
                                             <ul class="flex flex-col gap-4 mb-7">

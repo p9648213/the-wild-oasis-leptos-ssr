@@ -1,5 +1,5 @@
 use crate::{
-    components::{cabin_card::CabinCard, spinner::Spinner},
+    components::{cabin_card::CabinCard, filter::Filter, spinner::Spinner},
     util::data_service::{all_cabins_query, CabinKey},
 };
 use leptos::*;
@@ -32,6 +32,11 @@ pub fn Cabins() -> impl IntoView {
                 home away from home. The perfect spot for a peaceful, calm vacation.
                 Welcome to paradise."
             </p>
+
+            <div class="flex justify-end mb-8">
+                <Filter/>
+            </div>
+
             <Suspense fallback=move || view! { <Spinner/> }>
                 <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
                     {renderCabin()}

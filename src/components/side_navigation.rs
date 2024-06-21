@@ -13,7 +13,10 @@ pub fn SideNavigation() -> impl IntoView {
                     <A
                         class="py-3 px-5 hover:bg-primary-900 hover:text-primary-100 transition-colors flex items-center gap-4 font-semibold text-primary-200 nav-icon"
                         href="/account"
+                        active_class="bg-primary-900"
+                        exact=true
                     >
+
                         <Icon icon=HiHomeModernSolidLg class="inline-block -translate-y-[3px]"/>
                         <span>"Home"</span>
                     </A>
@@ -23,6 +26,8 @@ pub fn SideNavigation() -> impl IntoView {
                     <A
                         class="py-3 px-5 hover:bg-primary-900 hover:text-primary-100 transition-colors flex items-center gap-4 font-semibold text-primary-200 nav-icon"
                         href="/account/reservations"
+                        active_class="bg-primary-900"
+                        exact=true
                     >
                         <Icon icon=HiCalendarDaysSolidLg class="inline-block -translate-y-[3px]"/>
                         <span>"Reservations"</span>
@@ -33,6 +38,8 @@ pub fn SideNavigation() -> impl IntoView {
                     <A
                         class="py-3 px-5 hover:bg-primary-900 hover:text-primary-100 transition-colors flex items-center gap-4 font-semibold text-primary-200 nav-icon"
                         href="/account/profile"
+                        active_class="bg-primary-900"
+                        exact=true
                     >
                         <Icon icon=HiUserSolidLg class="inline-block -translate-y-[3px]"/>
                         <span>"Guest profile"</span>

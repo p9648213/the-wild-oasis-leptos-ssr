@@ -1,6 +1,7 @@
 pub mod account_layout;
 pub mod app_layout;
 pub mod cabin_card;
+pub mod filter;
 pub mod header;
 pub mod logo;
 pub mod navigation;

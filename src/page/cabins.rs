@@ -19,41 +19,42 @@ pub fn Cabins() -> impl IntoView {
 
     let data = query.data;
 
-    let renderCabin = move || {
-        data.get().map(|cabin| match cabin {
-            Ok(cabin) => {
-                let display_cabin = move || match active_filter().as_str() {
-                    "all" => cabin,
+    let renderCabin = move |filter: &'static str| {
+        data.get().map(|cabins| match cabins {
+            Ok(cabins) => {
+                let display_cabin = match filter {
+                    "all" => cabins,
                     "small" => {
-                        let filter_cabin: Vec<Cabin> = cabin
+                        let filter_cabin: Vec<Cabin> = cabins
                             .into_iter()
                             .filter(|cabin| cabin.max_capacity <= 3)
                             .collect();
                         filter_cabin
                     }
                     "medium" => {
-                        let filter_cabin: Vec<Cabin> = cabin
+                        let filter_cabin: Vec<Cabin> = cabins
                             .into_iter()
                             .filter(|cabin| cabin.max_capacity >= 4 && cabin.max_capacity <= 7)
                             .collect();
                         filter_cabin
                     }
                     "large" => {
-                        let filter_cabin: Vec<Cabin> = cabin
+                        let filter_cabin: Vec<Cabin> = cabins
                             .into_iter()
                             .filter(|cabin| cabin.max_capacity >= 8)
                             .collect();
                         filter_cabin
                     }
-                    _ => cabin,
+                    _ => cabins,
                 };
 
-                display_cabin()
+                display_cabin
                     .iter()
                     .map(|cabin| {
                         view! { <CabinCard cabin=cabin.clone()/> }
                     })
                     .collect_view()
+                    .into_view()
             }
             Err(err) => view! { <div>{err}</div> }.into_view(),
         })
@@ -77,7 +78,14 @@ pub fn Cabins() -> impl IntoView {
 
             <Suspense fallback=move || view! { <Spinner/> }>
                 <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-                    {renderCabin()}
+                    {move || match active_filter().as_str() {
+                        "all" => renderCabin("all"),
+                        "small" => renderCabin("small"),
+                        "medium" => renderCabin("medium"),
+                        "large" => renderCabin("large"),
+                        _ => renderCabin("all"),
+                    }}
+
                 </div>
             </Suspense>
 

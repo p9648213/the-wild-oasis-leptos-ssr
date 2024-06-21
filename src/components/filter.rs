@@ -2,8 +2,6 @@ use leptos::*;
 use leptos_router::{use_location, use_navigate, use_query_map};
 use std::rc::Rc;
 
-use crate::util::data_service::all_cabins_query;
-
 #[component]
 pub fn Filter() -> impl IntoView {
     let search_query = use_query_map();
@@ -20,7 +18,6 @@ pub fn Filter() -> impl IntoView {
         let pathname = location.pathname.get();
         let navigate_url = format!("{}?capacity={}", pathname, filter);
         navigate(&navigate_url, Default::default());
-        all_cabins_query().invalidate_all_queries();
     };
 
     view! {

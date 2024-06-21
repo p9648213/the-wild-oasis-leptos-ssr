@@ -1,16 +1,18 @@
 use leptos::*;
-use leptos_router::{use_location, use_navigate, use_params_map};
+use leptos_router::{use_location, use_navigate, use_query_map};
 use std::rc::Rc;
+
+use crate::util::data_service::all_cabins_query;
 
 #[component]
 pub fn Filter() -> impl IntoView {
-    let search_params = use_params_map();
+    let search_query = use_query_map();
     let location = use_location();
     let navigate = use_navigate();
 
     let active_filter = move || {
-        search_params
-            .with(|param| param.get("capacity").cloned())
+        search_query
+            .with(|query| query.get("capacity").cloned())
             .unwrap_or("all".to_owned())
     };
 
@@ -18,12 +20,36 @@ pub fn Filter() -> impl IntoView {
         let pathname = location.pathname.get();
         let navigate_url = format!("{}?capacity={}", pathname, filter);
         navigate(&navigate_url, Default::default());
+        all_cabins_query().invalidate_all_queries();
     };
 
     view! {
         <div class="border border-primary-800 flex">
             <Button
-                // Convert to Rc<String>
+                filter="all".to_owned().into()
+                active_filter=active_filter
+                handle_filter=handle_filter.clone()
+            >
+                "All cabins"
+            </Button>
+            <Button
+
+                filter="small".to_owned().into()
+                active_filter=active_filter
+                handle_filter=handle_filter.clone()
+            >
+                "1-3 guests"
+            </Button>
+            <Button
+
+                filter="medium".to_owned().into()
+                active_filter=active_filter
+                handle_filter=handle_filter.clone()
+            >
+                "4-7 guests"
+            </Button>
+            <Button
+
                 filter="large".to_owned().into()
                 active_filter=active_filter
                 handle_filter=handle_filter.clone()

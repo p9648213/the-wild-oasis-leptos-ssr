@@ -1,22 +1,60 @@
 use crate::{
     components::{cabin_card::CabinCard, filter::Filter, spinner::Spinner},
+    model::cabin::Cabin,
     util::data_service::{all_cabins_query, CabinKey},
 };
 use leptos::*;
+use leptos_router::use_query_map;
 
 #[component]
 pub fn Cabins() -> impl IntoView {
     let query = all_cabins_query().use_query(|| CabinKey);
+    let search_query = use_query_map();
+
+    let active_filter = move || {
+        search_query
+            .with(|query| query.get("capacity").cloned())
+            .unwrap_or("all".to_owned())
+    };
+
     let data = query.data;
 
     let renderCabin = move || {
         data.get().map(|cabin| match cabin {
-            Ok(cabin) => cabin
-                .iter()
-                .map(|cabin| {
-                    view! { <CabinCard cabin=cabin.clone()/> }
-                })
-                .collect_view(),
+            Ok(cabin) => {
+                let display_cabin = move || match active_filter().as_str() {
+                    "all" => cabin,
+                    "small" => {
+                        let filter_cabin: Vec<Cabin> = cabin
+                            .into_iter()
+                            .filter(|cabin| cabin.max_capacity <= 3)
+                            .collect();
+                        filter_cabin
+                    }
+                    "medium" => {
+                        let filter_cabin: Vec<Cabin> = cabin
+                            .into_iter()
+                            .filter(|cabin| cabin.max_capacity >= 4 && cabin.max_capacity <= 7)
+                            .collect();
+                        filter_cabin
+                    }
+                    "large" => {
+                        let filter_cabin: Vec<Cabin> = cabin
+                            .into_iter()
+                            .filter(|cabin| cabin.max_capacity >= 8)
+                            .collect();
+                        filter_cabin
+                    }
+                    _ => cabin,
+                };
+
+                display_cabin()
+                    .iter()
+                    .map(|cabin| {
+                        view! { <CabinCard cabin=cabin.clone()/> }
+                    })
+                    .collect_view()
+            }
             Err(err) => view! { <div>{err}</div> }.into_view(),
         })
     };
